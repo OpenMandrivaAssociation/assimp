@@ -7,7 +7,7 @@
 
 Name:		assimp
 Version:	%{ver}.%{rev}
-Release:	1
+Release:	2
 Summary:	Library to import various 3D model formats into applications
 Group:		Graphics
 License:	BSD
