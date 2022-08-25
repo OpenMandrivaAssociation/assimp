@@ -17,6 +17,7 @@ Patch0:		https://github.com/assimp/assimp/pull/4631.patch
 BuildRequires:	boost-devel
 BuildRequires:	cmake ninja
 BuildRequires:	pkgconfig(zlib)
+BuildRequires:	pkgconfig(minizip)
 
 %description
 Assimp, the Open Asset Import Library, is a free library to import various
