@@ -15,7 +15,7 @@ Source0:	https://github.com/assimp/assimp/archive/refs/tags/v%{version}.tar.gz
 Patch0:		https://github.com/assimp/assimp/pull/4631.patch
 
 BuildRequires:	boost-devel
-BuildRequires:	cmake
+BuildRequires:	cmake ninja
 BuildRequires:	pkgconfig(zlib)
 
 %description
