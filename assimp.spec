@@ -1,18 +1,18 @@
-%define major 3
-%define libname %mklibname %{name} %{major}
+%define major 5
+%define libname %mklibname %{name}
 %define devname %mklibname %{name} -d
 
-%define ver 3.0
-%define rev 1270
+%global optflags %{optflags} -isystem %{_includedir}/minizip -Wno-error=unknown-warning-option -Wno-error=unused-but-set-variable
 
 Name:		assimp
-Version:	%{ver}.%{rev}
-Release:	2
+Version:	5.2.4
+Release:	1
 Summary:	Library to import various 3D model formats into applications
 Group:		Graphics
 License:	BSD
-URL:		http://assimp.sourceforge.net
-Source0:	http://downloads.sourceforge.net/project/assimp/%{name}-%{ver}/%{name}--%{version}-source-only.zip
+URL:		https://github.com/assimp/assimp
+Source0:	https://github.com/assimp/assimp/archive/refs/tags/v%{version}.tar.gz
+Patch0:		https://github.com/assimp/assimp/pull/4631.patch
 
 BuildRequires:	boost-devel
 BuildRequires:	cmake
@@ -57,24 +57,28 @@ This package contains the header files and libraries for assimp.
 You need to install it if you want to develop programs using assimp.
 
 %files -n %{devname}
-%doc README LICENSE CREDITS CHANGES
+%doc LICENSE CREDITS CHANGES
 %{_includedir}/%{name}
 %{_libdir}/lib%{name}.so
-%{_libdir}/cmake/%{name}-%{ver}
+%{_libdir}/cmake/%{name}-%(echo %{version}|cut -d. -f1-2)
 %{_libdir}/pkgconfig/%{name}.pc
 
 #----------------------------------------------------------------------------
 
 %prep
-%setup -q -n %{name}--%{version}-source-only
+%autosetup -p1
+
+# Port to current minizip/zlib-ng
+sed -i -e 's,uLong,unsigned long,g;s,voidpf,void*,g' code/Common/ZipArchiveIOSystem.cpp
+
 sed -i s,"exec_prefix=.*","exec_prefix=%{_bindir}",g %{name}.pc.in
 sed -i s,"libdir=.*","libdir=%{_libdir}",g %{name}.pc.in
 sed -i s,"includedir=.*","includedir=%{_includedir}/%{name}",g %{name}.pc.in
 
+%cmake -G Ninja
+
 %build
-%cmake
-%make
+%ninja_build -C build
 
 %install
-%makeinstall_std -C build
-
+%ninja_install -C build
