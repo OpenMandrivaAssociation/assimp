@@ -5,14 +5,13 @@
 %global optflags %{optflags} -isystem %{_includedir}/minizip -Wno-error=unknown-warning-option -Wno-error=unused-but-set-variable
 
 Name:		assimp
-Version:	5.2.4
-Release:	2
+Version:	5.2.5
+Release:	1
 Summary:	Library to import various 3D model formats into applications
 Group:		Graphics
 License:	BSD
 URL:		https://github.com/assimp/assimp
 Source0:	https://github.com/assimp/assimp/archive/refs/tags/v%{version}.tar.gz
-Patch0:		https://github.com/assimp/assimp/pull/4631.patch
 
 BuildRequires:	boost-devel
 BuildRequires:	cmake ninja
@@ -29,7 +28,6 @@ This package contains assimp binary, a tool to work with various formats.
 
 %files
 %{_bindir}/assimp
-
 #----------------------------------------------------------------------------
 
 %package -n %{libname}
@@ -76,7 +74,9 @@ sed -i s,"exec_prefix=.*","exec_prefix=%{_bindir}",g %{name}.pc.in
 sed -i s,"libdir=.*","libdir=%{_libdir}",g %{name}.pc.in
 sed -i s,"includedir=.*","includedir=%{_includedir}/%{name}",g %{name}.pc.in
 
-%cmake -G Ninja
+%cmake \
+	-DASSIMP_BUILD_ASSIMP_TOOLS:BOOL=ON \
+	-G Ninja
 
 %build
 %ninja_build -C build
