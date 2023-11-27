@@ -5,7 +5,7 @@
 %global optflags %{optflags} -isystem %{_includedir}/minizip -Wno-error=unknown-warning-option -Wno-error=unused-but-set-variable
 
 Name:		assimp
-Version:	5.2.5
+Version:	5.3.1
 Release:	1
 Summary:	Library to import various 3D model formats into applications
 Group:		Graphics
@@ -76,6 +76,7 @@ sed -i s,"includedir=.*","includedir=%{_includedir}/%{name}",g %{name}.pc.in
 
 %cmake \
 	-DASSIMP_BUILD_ASSIMP_TOOLS:BOOL=ON \
+	-DASSIMP_BUILD_ZLIB:BOOL=OFF \
 	-G Ninja
 
 %build
