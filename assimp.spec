@@ -5,7 +5,7 @@
 %global optflags %{optflags} -isystem %{_includedir}/minizip -Wno-error=unknown-warning-option -Wno-error=unused-but-set-variable
 
 Name:		assimp
-Version:	5.4.2
+Version:	5.4.3
 Release:	1
 Summary:	Library to import various 3D model formats into applications
 Group:		Graphics
